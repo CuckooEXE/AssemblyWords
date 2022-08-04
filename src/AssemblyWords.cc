@@ -83,50 +83,6 @@ int main(int argc, const char* argv[])
         std::cerr << "Failed to create the MachineCode Assembly Backend" << std::endl;
         return -1;
     }
-
-
-
-
-
-    MCCodeEmitter *CE;
-    MCStreamer *Streamer;
-    unsigned char *encoding;
-    SmallString<1024> Msg;
-    raw_svector_ostream OS(Msg);
-    unsigned char* insn = NULL;
-    size_t* insn_size = 0;
-
-    SourceMgr SrcMgr;
-    MCObjectFileInfo MOFI;
-    MCContext Ctx(triple, MAI, MRI, STI, SrcMgr);
-
-    Streamer = target->createMCObjectStreamer(triple, Ctx, MAB, OS, CE, *STI,true, true, true);
-    if (!Streamer) {
-        std::cerr << "Failed to create the MachineCode Streamer" << std::endl;
-        return -1;
-    }
-
-    ErrorOr<std::unique_ptr<MemoryBuffer>> BufferPtr = MemoryBuffer::getMemBuffer("jmp eax");
-    if (BufferPtr.getError()) {
-        std::cerr << "Failed to create the Buffer" << std::endl;
-        return -1;
-    }
-
-    SrcMgr.clearBuffers();
-    SrcMgr.AddNewSourceBuffer(std::move(*BufferPtr), SMLoc());
-
-    MCAsmParser *Parser = createMCAsmParser(SrcMgr, Ctx, *Streamer, *MAI);
-    if (!Parser) {
-        std::cerr << "Failed to create the MachineCode Assembly Parser" << std::endl;
-        return -1;
-    }
-
-    TAP->KsSyntax = 
-    Parser->setTargetParser(*TAP);
-
-
-
-
     std::cout << "Done!" << std::endl;
 
     return 0;

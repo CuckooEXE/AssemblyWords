@@ -1,6 +1,9 @@
 ## Project Ignore Rules ##
 .vscode/
 .notes/
+bin/
+build/
+lib/
 
 ## Python Ignore Rules ##
 # Byte-compiled / optimized / DLL files
