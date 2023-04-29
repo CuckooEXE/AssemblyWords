@@ -26,5 +26,6 @@
 #include "llvm/CodeGen/TargetInstrInfo.h"
 #include "llvm/Support/X86DisassemblerDecoderCommon.h"
 #include "llvm/Support/X86TargetParser.h"
+#include "llvm/CodeGen/TargetInstrInfo.h"
 
 #endif // !ASSEMBLYWORDS_H_

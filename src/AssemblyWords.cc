@@ -1,5 +1,13 @@
 #include "AssemblyWords.hh"
 
+
+#include "X86FrameLowering.h"
+#include "X86InstrBuilder.h"
+#include "X86InstrInfo.h"
+#include "X86MachineFunctionInfo.h"
+#include "X86Subtarget.h"
+
+
 using namespace llvm;
 
 int main(int argc, const char* argv[])
@@ -13,6 +21,28 @@ int main(int argc, const char* argv[])
     MCSubtargetInfo* STI = nullptr;
     MCAsmBackend* MAB = nullptr;
     MCAsmInfo* MAI = nullptr;
+
+    const TargetInstrInfo &TTI = llvm::TargetInstrInfo();
+    TTI.get()
+
+    // const TargetInstrInfo &TII = ...
+    // MachineBasicBlock &MBB = ...
+    // DebugLoc DL;
+    // MachineInstr *MI = BuildMI(MBB, DL, TII.get(X86::MOV32ri), DestReg).addImm(42);
+
+    // // Create the same instr, but insert it before a specified iterator point.
+    // MachineBasicBlock::iterator MBBI = ...
+    // BuildMI(MBB, MBBI, DL, TII.get(X86::MOV32ri), DestReg).addImm(42);
+
+    // // Create a 'cmp Reg, 0' instruction, no destination reg.
+    // MI = BuildMI(MBB, DL, TII.get(X86::CMP32ri8)).addReg(Reg).addImm(42);
+
+    // // Create an 'sahf' instruction which takes no operands and stores nothing.
+    // MI = BuildMI(MBB, DL, TII.get(X86::SAHF));
+
+    // // Create a self looping branch instruction.
+    // BuildMI(MBB, DL, TII.get(X86::JNE)).addMBB(&MBB);
+
 
     // Iterate over all the ArchTypes
     // for(int arch = Triple::ArchType::UnknownArch; arch < Triple::ArchType::LastArchType; arch++) {

@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,900&display=swap');
+
+.gradient {
+	font-family: 'Raleway', sans-serif;
+	font-size:100px;
+	line-height:100px;
+	margin:0;
+	text-align:center;
+	background: linear-gradient(27deg, #7928CA, #FF0080, #7928CA, #FF0080);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
