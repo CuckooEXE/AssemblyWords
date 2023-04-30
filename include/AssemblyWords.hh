@@ -12,20 +12,20 @@
 #define ASSEMBLYWORDS_H_
 
 #include <iostream>
+#include <string>
 
-#include "llvm/ADT/Triple.h"
-#include "llvm/MC/TargetRegistry.h"
-#include "llvm/MC/MCContext.h"
-#include "llvm/MC/MCTargetOptionsCommandFlags.h"
-#include "llvm/MC/MCTargetOptions.h"
-#include "llvm/MC/MCStreamer.h"
-#include "llvm/MC/MCParser/MCAsmParser.h"
-#include "llvm/Support/TargetSelect.h"
-#include "llvm/Support/SourceMgr.h"
-
-#include "llvm/CodeGen/TargetInstrInfo.h"
-#include "llvm/Support/X86DisassemblerDecoderCommon.h"
-#include "llvm/Support/X86TargetParser.h"
-#include "llvm/CodeGen/TargetInstrInfo.h"
+#include <llvm/CodeGen/MachineInstrBuilder.h>
+#include <llvm/CodeGen/MachineInstr.h>
+#include <llvm/CodeGen/TargetInstrInfo.h>
+#include <llvm/CodeGen/MachineFunction.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/ADT/Triple.h>
+#include <llvm/MC/TargetRegistry.h>
+#include <llvm/IR/DebugLoc.h>
+#include <llvm/Support/TargetSelect.h>
+#include <llvm/MC/MCInst.h>
+#include <llvm/MC/MCAsmInfo.h>
+#include <llvm/MC/MCInstPrinter.h>
+#include <llvm/MC/MCTargetOptions.h>
 
 #endif // !ASSEMBLYWORDS_H_

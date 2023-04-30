@@ -7,4 +7,15 @@ $(document).ready(function(){
             $(this).toggle(haystack.indexOf(needle) > -1);
         });
     });
+
+    for (const instr of instructions) {
+        $("table tbody").append(
+            `<tr>` + 
+                `<th scope="row">${instr.architecture}</th>` + 
+                `<td><kbd>${instr.instruction}</kbd></td>` + 
+                `<td>${instr.ascii}</td>` + 
+                `<td><code>${instr.hex}</code></td>` + 
+            `</tr>`
+        );
+    }
 });
