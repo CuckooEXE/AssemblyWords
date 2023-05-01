@@ -19,8 +19,18 @@ int main(int argc, const char* argv[])
     const MCAsmInfo* MAI = nullptr;
     const MCRegisterInfo* MRI = nullptr;
     const MCSubtargetInfo* MSTI = nullptr;
-    MCInstPrinter* MIP = nullptr;
-
+    MCInstPrinter* MIP = nullptr;    
+    
+    json::OStream J(llvm::outs());
+    J.objectBegin();
+    J.attribute("test", 5);
+    J.attributeArray("participants", [&] {
+        J.value(5);
+        J.value(6);
+        J.attribute("test", 7);
+    });
+    J.objectEnd();
+    
     InitializeAllTargetInfos();
     InitializeAllTargets();
     InitializeAllTargetMCs();

@@ -23,6 +23,7 @@
 #include <llvm/ADT/SmallVector.h>
 #include <llvm/IR/DebugLoc.h>
 #include <llvm/Support/TargetSelect.h>
+#include <llvm/Support/JSON.h>
 #include <llvm/MC/TargetRegistry.h>
 #include <llvm/MC/MCContext.h>
 #include <llvm/MC/MCInst.h>
