@@ -29,7 +29,7 @@ clean:
 AssemblyWords: $(BINDIR)/AssemblyWords
 $(BINDIR)/AssemblyWords:
 	mkdir -p $(BINDIR)/
-	$(CXX) $(WARNFLAGS) $(LLVM_CFLAGS) $(DEBUG_FLAGS) -Iinclude/ -isystem../llvm.bak/include/ -o $(BINDIR)/AssemblyWords src/*.cc $(LLVM_LDFLAGS) 
+	$(CXX) $(WARNFLAGS) $(LLVM_CFLAGS) $(DEBUG_FLAGS) -Iinclude/ -o $(BINDIR)/AssemblyWords src/*.cc $(LLVM_LDFLAGS) 
 
 # Test
 test: AssemblyWords

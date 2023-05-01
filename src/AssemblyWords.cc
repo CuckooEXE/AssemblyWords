@@ -4,10 +4,15 @@ using namespace llvm;
 
 int main(int argc, const char* argv[])
 {
+    bool is_valid_opcode = false;
     std::string err;
     MCInst MI;
     MCTargetOptions MTO;
+    MCInstrDesc MCID;
+    SmallVector<MCFixup, 0> Fixups;
+    MCContext* Ctx = nullptr;
     Triple* triple = nullptr;
+    const MCCodeEmitter* MCE = nullptr;
     const Target* target = nullptr;
     const TargetMachine* TM = nullptr;
     const MCInstrInfo* MII = nullptr;
@@ -87,39 +92,43 @@ int main(int argc, const char* argv[])
         return -1;
     }
 
-    std::cout << "Creating MCInst..." << std::endl;
+    std::cout << "Creating MCContext..." << std::endl;
+    Ctx = new MCContext(*triple, MAI, MRI, MSTI);
+    if (!Ctx) {
+        std::cerr << "Failed to create the MCContext" << std::endl;
+        return -1;
+    }
 
-    MI.setOpcode(17671);
-    MI.addOperand(MCOperand::createReg(49));
-    MI.addOperand(MCOperand::createReg(49));
-    MI.addOperand(MCOperand::createReg(49));
+    std::cout << "Creating MCCodeEmitter..." << std::endl;
+    MCE = target->createMCCodeEmitter(*MII, *MRI, *Ctx);
+    if (!MCE) {
+        std::cerr << "target->createMCCodeEmitter(*MII, *MRI, *MSTI, *TM, MTO) failed" << std::endl;
+        return -1;
+    }
 
-    std::cout << "MCInst: " << std::endl;
-    MIP->printInst(&MI, 1, "", *MSTI, llvm::outs());
-    std::cout << std::endl;
+    std::cout << "Iterating over Opcodes..." << std::endl;
+    for (size_t i = 1984; i < 1985; i++) {
+        MCID = MII->get(i);
+        std::cout << MII->getName(i).str() << ": " << i << std::endl;
+        is_valid_opcode = MCID.getNumOperands() == 0; // Assume it's valid if it has no operands
 
-    
+        // Check all operands, we only operate on instructions with all register operands
+        for (const MCOperandInfo& op : MCID.operands()) {
+            if (op.OperandType == MCOI::OperandType::OPERAND_REGISTER) {
+                is_valid_opcode = true;
+            }
+            else {
+                is_valid_opcode = false;
+            }
+        }
+        if (!is_valid_opcode) {
+            continue;
+        }
+        MI.setOpcode(i);
 
-
-    // const TargetInstrInfo &TII = ...
-    // MachineBasicBlock &MBB = ...
-    // DebugLoc DL;
-    // MachineInstr *MI = BuildMI(MBB, DL, TII.get(X86::MOV32ri), DestReg).addImm(42);
-
-    // // Create the same instr, but insert it before a specified iterator point.
-    // MachineBasicBlock::iterator MBBI = ...
-    // BuildMI(MBB, MBBI, DL, TII.get(X86::MOV32ri), DestReg).addImm(42);
-
-    // // Create a 'cmp Reg, 0' instruction, no destination reg.
-    // MI = BuildMI(MBB, DL, TII.get(X86::CMP32ri8)).addReg(Reg).addImm(42);
-
-    // // Create an 'sahf' instruction which takes no operands and stores nothing.
-    // MI = BuildMI(MBB, DL, TII.get(X86::SAHF));
-
-    // // Create a self looping branch instruction.
-    // BuildMI(MBB, DL, TII.get(X86::JNE)).addMBB(&MBB);
+        std::cout << "A"; MCE->encodeInstruction(MI, llvm::errs(), Fixups, *MSTI);std::cout << "B"; 
+    }
 
     std::cout << "Done!" << std::endl;
-
     return 0;
 }
