@@ -6,7 +6,7 @@ ENV LC_CTYPE C.UTF-8
 ARG LLVM_TARGETS_TO_BUILD="all"
 ARG LLVM_ENABLE_PROJECTS="all"
 ARG LLVM_ENABLE_RUNTIMES="all"
-ARG CMAKE_BUILD_TYPE="Release"
+ARG CMAKE_BUILD_TYPE="Debug"
 
 # tzdata Docker work around
 ENV DEBIAN_FRONTEND noninteractive
@@ -32,11 +32,9 @@ RUN mkdir -p $LLVM_DIR
 RUN mkdir -p llvm-project/build
 WORKDIR /llvm-project/build
 RUN cmake -G Ninja \
-        -DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS} \
         -DLLVM_TARGETS_TO_BUILD=${LLVM_TARGETS_TO_BUILD} \
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
         -DCMAKE_INSTALL_PREFIX=$LLVM_DIR \
-        -DLLVM_ENABLE_RUNTIMES=${LLVM_ENABLE_RUNTIMES} \
         -DLLVM_INSTALL_UTILS=ON \
         -DLLVM_USE_LINKER=gold \
         ../llvm

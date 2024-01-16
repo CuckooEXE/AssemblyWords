@@ -1,7 +1,7 @@
-CC			:= clang
-CXX			:= clang++
-LD			:= ld.gold
-OPT			:= opt-14
+LLVM_VER	:= 14
+CC			:= clang-$(LLVM_VER)
+CXX			:= clang++-$(LLVM_VER)
+OPT			:= opt-$(LLVM_VER)
 BINDIR		:= bin
 LIBDIR		:= lib
 BUILDDIR	:= build
@@ -12,8 +12,8 @@ DEBUG_FLAGS := -g -O0 -fno-omit-frame-pointer
 REL_FLAGS	:= -O3 -fomit-frame-pointer
 
 # pkg-config for external libraries
-LLVM_CFLAGS		:= $(shell llvm-config --cflags)
-LLVM_LDFLAGS	:= $(shell llvm-config --ldflags) $(shell llvm-config --libs)
+LLVM_CFLAGS		:= $(shell llvm-config-$(LLVM_VER) --cflags)
+LLVM_LDFLAGS	:= $(shell llvm-config-$(LLVM_VER) --ldflags) $(shell llvm-config-$(LLVM_VER) --libs) -l:libLLVMTableGen.a
 
 
 DEFAULT: AssemblyWords
@@ -29,7 +29,7 @@ clean:
 AssemblyWords: $(BINDIR)/AssemblyWords
 $(BINDIR)/AssemblyWords:
 	mkdir -p $(BINDIR)/
-	$(CXX) $(WARNFLAGS) $(LLVM_CFLAGS) $(DEBUG_FLAGS) -Iinclude/ -o $(BINDIR)/AssemblyWords src/*.cc $(LLVM_LDFLAGS) 
+	$(CXX) $(WARNFLAGS) $(LLVM_CFLAGS) -Iinclude/ -o $(BINDIR)/AssemblyWords src/*.cc $(LLVM_LDFLAGS) 
 
 # Test
 test: AssemblyWords
